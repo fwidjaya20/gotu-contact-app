@@ -5,24 +5,14 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
-import * as Contacts from "expo-contacts";
 import { useEffect } from "react";
+import { useContactsModule } from "@/modules/contacts";
 
 export default function HomeScreen() {
-  useEffect(() => {
-    (async () => {
-      const { status } = await Contacts.requestPermissionsAsync();
+  const { GetContacts } = useContactsModule();
 
-      if (status === "granted") {
-        const contactResponse = await Contacts.getContactsAsync({
-          fields: [
-            Contacts.Fields.Name,
-            Contacts.Fields.PhoneNumbers,
-            Contacts.Fields.ID,
-          ],
-        });
-      }
-    })();
+  useEffect(() => {
+    GetContacts({}).then(console.log).catch(console.error);
   }, []);
 
   return (

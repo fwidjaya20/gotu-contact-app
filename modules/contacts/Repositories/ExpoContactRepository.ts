@@ -23,6 +23,7 @@ export class ExpoContactRepository implements Repository {
           ContactClient.Fields.Name,
           ContactClient.Fields.PhoneNumbers,
         ],
+        sort: "firstName",
       });
 
       return GetContactsResponse.fromJson(dataContacts);

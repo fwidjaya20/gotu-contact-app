@@ -1,17 +1,13 @@
 import { Pagination } from "@/shared/ValueObject";
-import { ContactQuery, Fields } from "expo-contacts";
+import { ContactQuery } from "expo-contacts";
 
-export interface GetContactsDTO extends Pagination {
-  id: string;
-}
+export interface GetContactsDTO extends Pagination {}
 
 export namespace GetContactsDTO {
   export function toContactQuery(dto: GetContactsDTO): ContactQuery {
     const { limit, offset } = Pagination.toJson(dto);
 
     return {
-      id: dto.id,
-      fields: [Fields.ID, Fields.Name, Fields.PhoneNumbers],
       pageOffset: offset,
       pageSize: limit,
     };
