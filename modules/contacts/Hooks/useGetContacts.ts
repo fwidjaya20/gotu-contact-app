@@ -1,53 +1,55 @@
-import { Failure } from "@/shared/DataType";
-import { PaginationMetadata } from "@/shared/ValueObject";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback } from "react";
 import { GetContactsDTO } from "../DTOs";
-import { ContactEntity, GetContactsResponse } from "../Entities";
+import { GetContactsResponse } from "../Entities";
 import { useContactsModule } from "../Module";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ContactsFailureSelector,
+  ContactsFavouriteSelector,
+  ContactsListSelector,
+  ContactsMapSelector,
+  ContactsMetadataSelector,
+  ContactsUiSelector,
+  SetContacts,
+  SetContactsFailure,
+  SetContactsLoaded,
+  SetContactsLoading,
+} from "../Redux";
 
 export function useGetContacts() {
-  const [contacts, setContacts] = useState<ContactEntity[]>([]);
-  const [failure, setFailure] = useState<Failure>();
-  const [metadata, setMetadata] = useState<PaginationMetadata>({
-    hasNextData: false,
-    hasPreviousData: false,
-  });
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const hasError = useMemo(() => failure !== undefined, [failure]);
+  const contacts = useSelector(ContactsMapSelector);
+  const failure = useSelector(ContactsFailureSelector);
+  const favourite = useSelector(ContactsFavouriteSelector);
+  const list = useSelector(ContactsListSelector);
+  const metadata = useSelector(ContactsMetadataSelector);
+  const ui = useSelector(ContactsUiSelector);
 
   const { GetContacts } = useContactsModule();
+  const dispatch = useDispatch();
 
   const getContacts = useCallback(async (dto?: GetContactsDTO) => {
-    setIsLoading(true);
+    dispatch(SetContactsLoading(true));
 
     GetContacts({
       limit: dto?.limit,
       pages: dto?.pages,
     })
       .then((result: GetContactsResponse) => {
-        setContacts(result.contacts);
-        setMetadata({
-          hasNextData: result.hasNextPages,
-          hasPreviousData: result.hasPreviousPages,
-        });
+        dispatch(SetContacts(result));
+        dispatch(SetContactsLoaded(true));
       })
       .catch((e) => {
-        setFailure(e);
-      })
-      .finally(() => {
-        setIsLoading(false);
+        dispatch(SetContactsFailure(e));
       });
   }, []);
 
   return {
     contacts,
     failure,
+    favourite,
+    list,
     metadata,
     getContacts,
-    state: {
-      isLoading,
-      hasError,
-    },
+    ui,
   };
 }

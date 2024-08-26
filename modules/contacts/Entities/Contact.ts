@@ -27,8 +27,8 @@ export namespace GetContactsResponse {
   export function fromJson(json: RawJson): GetContactsResponse {
     return {
       contacts: (json["data"] ?? []).map(ContactEntity.fromJson),
-      hasPreviousPages: json["hasPreviousPages"] ?? false,
-      hasNextPages: json["hasNextPages"] ?? false,
+      hasNextPages: json["hasNextPage"] ?? false,
+      hasPreviousPages: json["hasPreviousPage"] ?? false,
     };
   }
 }
