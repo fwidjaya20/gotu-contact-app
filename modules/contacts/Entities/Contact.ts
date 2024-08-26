@@ -1,8 +1,12 @@
 import { RawJson } from "@/shared/DataType";
 import { PhoneNumber } from "./PhoneNumber";
+import { Address } from "./Address";
+import { Email } from "./Email";
 
 export interface ContactEntity {
+  addresses: Address[];
   company: string;
+  emails: Email[];
   fullName: string;
   id: string;
   isFavorite: boolean;
@@ -13,7 +17,9 @@ export interface ContactEntity {
 export namespace ContactEntity {
   export function fromJson(json: RawJson): ContactEntity {
     return {
+      addresses: (json["addresses"] ?? []).map(Address.fromJson),
       company: json["company"],
+      emails: (json["emails"] ?? []).map(Email.fromJson),
       fullName: json["name"],
       id: json["id"],
       isFavorite: false,

@@ -1,8 +1,12 @@
 import Error from "@/components/Error";
+import { IconedInformation } from "@/components/IconedInformation";
 import { Information } from "@/components/Information";
 import Loading from "@/components/Loading";
-import { PhoneInformation } from "@/components/PhoneInformation";
-import { useContactFavorite, useGetContactDetail } from "@/modules/contacts";
+import {
+  Address,
+  useContactFavorite,
+  useGetContactDetail,
+} from "@/modules/contacts";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { Fragment, ReactNode, useEffect } from "react";
@@ -69,13 +73,57 @@ export default function ContactDetailScreen(): ReactNode {
               </View>
               <View>
                 <Text className="font-semibold text-base">Phone Numbers</Text>
-                <View className="flex flex-col gap-y-2">
-                  {contact?.phoneNumbers?.map(({ id, label, number }) => (
-                    <View key={id}>
-                      <PhoneInformation title={label} value={number} />
-                    </View>
-                  ))}
-                </View>
+                {contact?.phoneNumbers.length ? (
+                  <View className="flex flex-col gap-y-2">
+                    {contact?.phoneNumbers?.map(({ id, label, number }) => (
+                      <View key={id}>
+                        <IconedInformation
+                          icon={<Ionicons name="call-outline" size={20} />}
+                          title={label}
+                          value={number}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                ) : (
+                  <Text className="text-lg">-</Text>
+                )}
+              </View>
+              <View>
+                <Text className="font-semibold text-base">Emails</Text>
+                {contact?.emails.length ? (
+                  <View className="flex flex-col gap-y-2">
+                    {contact?.emails?.map(({ id, label, email }) => (
+                      <View key={id}>
+                        <IconedInformation
+                          icon={<Ionicons name="mail-outline" size={20} />}
+                          title={label}
+                          value={email}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                ) : (
+                  <Text className="text-lg">-</Text>
+                )}
+              </View>
+              <View>
+                <Text className="font-semibold text-base">Addresses</Text>
+                {contact?.addresses.length ? (
+                  <View className="flex flex-col gap-y-2">
+                    {contact?.addresses?.map((it) => (
+                      <View key={it.id}>
+                        <IconedInformation
+                          icon={<Ionicons name="home-outline" size={20} />}
+                          title={it.label}
+                          value={Address.toStdAddress(it)}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                ) : (
+                  <Text className="text-lg">-</Text>
+                )}
               </View>
               <View className="border-b px-6 border-gray-300" />
               <View>
