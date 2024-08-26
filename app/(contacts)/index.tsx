@@ -51,7 +51,6 @@ export default function ContactsScreen(): ReactNode {
           onEndReached={() => {
             getMoreContacts();
           }}
-          onEndReachedThreshold={0}
           renderItem={({ index, item }) => {
             const { fullName, id, phoneNumbers } = contacts[item];
 
@@ -72,7 +71,7 @@ export default function ContactsScreen(): ReactNode {
                         {fullName}
                       </Text>
                       <Text className="text-sm text-gray-600">
-                        {phoneNumbers[0].number}
+                        {phoneNumbers.length ? phoneNumbers[0].number : '-'}
                       </Text>
                     </View>
                     <Ionicons
@@ -90,37 +89,6 @@ export default function ContactsScreen(): ReactNode {
           }}
         />
       )}
-      {/* {isLoaded &&
-          list.map((it) => {
-            const { fullName, id, phoneNumbers } = contacts[it];
-
-            return (
-              <View key={id} className="mx-6 border-b py-6 border-divider">
-                <TouchableOpacity
-                  className="flex flex-row items-center gap-4 justify-start"
-                  onPress={() => doPressContactItem(id)}
-                >
-                  <View className="bg-gray-300 aspect-square w-10 rounded-lg flex items-center justify-center">
-                    <Text className="font-medium text-lg">
-                      {fullName.charAt(0)}
-                    </Text>
-                  </View>
-                  <View className="flex-1">
-                    <Text className="font-semibold text-base">{fullName}</Text>
-                    <Text className="text-sm text-gray-600">
-                      {phoneNumbers[0].number}
-                    </Text>
-                  </View>
-                  <Ionicons
-                    color="#9CA3AF"
-                    name="chevron-forward-outline"
-                    size={22}
-                  />
-                </TouchableOpacity>
-              </View>
-            );
-          })} */}
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
