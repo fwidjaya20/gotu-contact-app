@@ -1,5 +1,7 @@
 import Error from "@/components/Error";
+import { Information } from "@/components/Information";
 import Loading from "@/components/Loading";
+import { PhoneInformation } from "@/components/PhoneInformation";
 import { useContactFavorite, useGetContactDetail } from "@/modules/contacts";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams } from "expo-router";
@@ -64,38 +66,24 @@ export default function ContactDetailScreen(): ReactNode {
             </View>
             <View className="px-6 pt-8 flex flex-col gap-6">
               <View>
-                <Text className="font-semibold text-base">Full Name</Text>
-                <Text className="text-lg">{contact?.fullName}</Text>
+                <Information title="Full Name" value={contact?.fullName} />
               </View>
               <View>
                 <Text className="font-semibold text-base">Phone Numbers</Text>
                 <View className="flex flex-col gap-y-2">
                   {contact?.phoneNumbers?.map(({ id, label, number }) => (
-                    <View
-                      key={id}
-                      className="flex flex-row flex-1 items-center justify-start gap-3"
-                    >
-                      <View className="border rounded-lg w-8 h-8 flex items-center justify-center">
-                        <Ionicons name="call-outline" size={24} />
-                      </View>
-                      <View>
-                        <Text className="uppercase text-sm font-semibold text-gray-500">
-                          {label}
-                        </Text>
-                        <Text className="text-lg">{number}</Text>
-                      </View>
+                    <View key={id}>
+                      <PhoneInformation title={label} value={number} />
                     </View>
                   ))}
                 </View>
               </View>
               <View className="border-b px-6 border-gray-300" />
               <View>
-                <Text className="font-semibold text-base">Company</Text>
-                <Text className="text-lg">{contact?.company || "-"}</Text>
+                <Information title="Company" value={contact?.company} />
               </View>
               <View>
-                <Text className="font-semibold text-base">Job Title</Text>
-                <Text className="text-lg">{contact?.jobTitle || "-"}</Text>
+                <Information title="Job Title" value={contact?.jobTitle} />
               </View>
             </View>
           </Fragment>
