@@ -2,16 +2,20 @@ import { RawJson } from "@/shared/DataType";
 import { PhoneNumber } from "./PhoneNumber";
 
 export interface ContactEntity {
+  company: string;
   fullName: string;
   id: string;
+  jobTitle: string;
   phoneNumbers: PhoneNumber[];
 }
 
 export namespace ContactEntity {
   export function fromJson(json: RawJson): ContactEntity {
     return {
+      company: json["company"],
       fullName: json["name"],
       id: json["id"],
+      jobTitle: json["jobTitle"],
       phoneNumbers: (json["phoneNumbers"] ?? []).map(PhoneNumber.fromJson),
     };
   }

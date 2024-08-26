@@ -1,8 +1,10 @@
 import { Reducer } from "@/shared/Redux";
 import { ActionReducerMapBuilder, PayloadAction } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer";
-import { GetContactsResponse } from "../Entities";
+import { ContactEntity, GetContactsResponse } from "../Entities";
 import {
+  AddFavorite,
+  RemoveFavorite,
   SetContacts,
   SetContactsFailure,
   SetContactsLoaded,
@@ -37,10 +39,36 @@ export class ContactReducer extends Reducer<ContactState> {
     builder: ActionReducerMapBuilder<ContactState>
   ): ActionReducerMapBuilder<ContactState> {
     return builder
+      .addCase(AddFavorite, ContactReducer.addFavorite)
+      .addCase(RemoveFavorite, ContactReducer.removeFavorite)
       .addCase(SetContacts, ContactReducer.setContacts)
       .addCase(SetContactsFailure, ContactReducer.setContactsFailure)
       .addCase(SetContactsLoaded, ContactReducer.setContactsLoaded)
       .addCase(SetContactsLoading, ContactReducer.setContactLoading);
+  }
+
+  static addFavorite(
+    this: void,
+    state: WritableDraft<ContactState>,
+    { payload }: PayloadAction<string>
+  ) {
+    state.favourite[payload] = true;
+  }
+
+  static removeFavorite(
+    this: void,
+    state: WritableDraft<ContactState>,
+    { payload }: PayloadAction<string>
+  ) {
+    delete state.favourite[payload];
+  }
+
+  static setContact(
+    this: void,
+    state: WritableDraft<ContactState>,
+    { payload }: PayloadAction<ContactEntity>
+  ) {
+    state.contacts[payload.id] = payload;
   }
 
   static setContacts(

@@ -1,44 +1,50 @@
-import { Failure } from "@/shared/DataType";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ContactEntity } from "../Entities";
 import { useContactsModule } from "../Module";
+import {
+  ContactsFailureSelector,
+  ContactsFavouriteSelector as ContactsFavoriteSelector,
+  ContactsMapSelector,
+  ContactsUiSelector,
+  SetContact,
+  SetContactsFailure,
+  SetContactsLoaded,
+  SetContactsLoading,
+} from "../Redux";
 
 export function useGetContactDetail() {
-  const [contact, setContact] = useState<ContactEntity>();
-  const [failure, setFailure] = useState<Failure>();
+  const contacts = useSelector(ContactsMapSelector);
+  const failure = useSelector(ContactsFailureSelector);
+  const favorite = useSelector(ContactsFavoriteSelector);
+  const ui = useSelector(ContactsUiSelector);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const hasError = useMemo(() => failure !== undefined, [failure]);
-  const isLoaded = useMemo(
-    () => !isLoading && !hasError && contact !== undefined,
-    [contact, isLoading, hasError]
-  );
+  const contactId = useRef<string>();
 
   const { GetContact } = useContactsModule();
 
+  const dispatch = useDispatch();
+
   const getContact = useCallback(async (id: string) => {
-    setIsLoading(true);
+    contactId.current = id;
+
+    dispatch(SetContactsLoading(true));
 
     GetContact(id)
       .then((result: ContactEntity) => {
-        setContact(result);
+        dispatch(SetContact(result));
+        dispatch(SetContactsLoaded(true));
       })
       .catch((e) => {
-        setFailure(e);
-      })
-      .finally(() => {
-        setIsLoading(false);
+        dispatch(SetContactsFailure(e));
       });
   }, []);
 
   return {
-    contact,
+    contact: contactId.current ? contacts[contactId.current] : undefined,
     failure,
+    favorite,
     getContact,
-    state: {
-      isLoaded,
-      isLoading,
-      hasError,
-    },
+    ui,
   };
 }

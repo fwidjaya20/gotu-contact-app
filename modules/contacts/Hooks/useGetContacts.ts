@@ -19,7 +19,7 @@ import {
 export function useGetContacts() {
   const contacts = useSelector(ContactsMapSelector);
   const failure = useSelector(ContactsFailureSelector);
-  const favourite = useSelector(ContactsFavouriteSelector);
+  const favorite = useSelector(ContactsFavouriteSelector);
   const list = useSelector(ContactsListSelector);
   const metadata = useSelector(ContactsMetadataSelector);
   const ui = useSelector(ContactsUiSelector);
@@ -46,7 +46,7 @@ export function useGetContacts() {
   return {
     contacts,
     failure,
-    favourite,
+    favorite,
     list,
     metadata,
     getContacts,
