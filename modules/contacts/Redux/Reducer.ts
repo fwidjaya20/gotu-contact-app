@@ -4,6 +4,7 @@ import { WritableDraft } from "immer";
 import { ContactEntity, GetContactsResponse } from "../Entities";
 import {
   AddFavorite,
+  AppendContacts,
   RemoveFavorite,
   SetContacts,
   SetContactsFailure,
@@ -40,6 +41,7 @@ export class ContactReducer extends Reducer<ContactState> {
   ): ActionReducerMapBuilder<ContactState> {
     return builder
       .addCase(AddFavorite, ContactReducer.addFavorite)
+      .addCase(AppendContacts, ContactReducer.appendContacts)
       .addCase(RemoveFavorite, ContactReducer.removeFavorite)
       .addCase(SetContacts, ContactReducer.setContacts)
       .addCase(SetContactsFailure, ContactReducer.setContactsFailure)
@@ -58,6 +60,23 @@ export class ContactReducer extends Reducer<ContactState> {
 
     state.favorite = payload;
     state.contacts[payload].isFavorite = true;
+  }
+
+  static appendContacts(
+    this: void,
+    state: WritableDraft<ContactState>,
+    { payload }: PayloadAction<GetContactsResponse>
+  ) {
+    state.failure = undefined;
+    state.metadata = {
+      hasNextData: payload.hasNextPages,
+      hasPreviousData: payload.hasPreviousPages,
+    };
+
+    payload.contacts.forEach((it) => {
+      state.list.push(it.id);
+      state.contacts[it.id] = it;
+    });
   }
 
   static removeFavorite(

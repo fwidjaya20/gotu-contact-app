@@ -4,7 +4,7 @@ export interface Pagination {
 }
 
 export namespace Pagination {
-  const defaultLimit: number = 10;
+  const defaultLimit: number = 25;
   const defaultPages: number = 1;
 
   export function toJson(dto: Pagination): Record<string, any> {

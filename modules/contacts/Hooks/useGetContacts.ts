@@ -1,9 +1,10 @@
-import { useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import { GetContactsDTO } from "../DTOs";
 import { GetContactsResponse } from "../Entities";
 import { useContactsModule } from "../Module";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  AppendContacts,
   ContactsFailureSelector,
   ContactsFavouriteSelector,
   ContactsListSelector,
@@ -24,10 +25,12 @@ export function useGetContacts() {
   const metadata = useSelector(ContactsMetadataSelector);
   const ui = useSelector(ContactsUiSelector);
 
+  const pages = useRef<number>(1);
+
   const { GetContacts } = useContactsModule();
   const dispatch = useDispatch();
 
-  const getContacts = useCallback(async (dto?: GetContactsDTO) => {
+  const getContacts = useCallback((dto?: GetContactsDTO) => {
     dispatch(SetContactsLoading(true));
 
     GetContacts({
@@ -43,12 +46,31 @@ export function useGetContacts() {
       });
   }, []);
 
+  const getMoreContacts = useCallback(() => {
+    if (!metadata.hasNextData) {
+      return;
+    }
+
+    pages.current += 1;
+
+    GetContacts({
+      pages: pages.current,
+    })
+      .then((result: GetContactsResponse) => {
+        dispatch(AppendContacts(result));
+      })
+      .catch((e) => {
+        dispatch(SetContactsFailure(e));
+      });
+  }, [pages, metadata]);
+
   return {
     contacts,
     failure,
     list: [...(favorite ? [favorite] : []), ...list],
     metadata,
     getContacts,
+    getMoreContacts,
     ui,
   };
 }

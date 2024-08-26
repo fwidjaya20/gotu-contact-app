@@ -2,6 +2,8 @@ import { createAction } from "@reduxjs/toolkit";
 import { ContactEntity, GetContactsResponse } from "../Entities";
 import { Failure } from "@/shared/DataType";
 
+export const AppendContacts =
+  createAction<GetContactsResponse>("CONTACTS/APPEND");
 export const SetContact = createAction<ContactEntity>("CONTACTS/SET/SINGLE");
 export const SetContacts = createAction<GetContactsResponse>("CONTACTS/SET");
 export const SetContactsFailure = createAction<Failure>("CONTACTS/FAILURE");
