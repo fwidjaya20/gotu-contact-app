@@ -1,7 +1,9 @@
-import { ContactEntity, useContactsModule } from "@/modules/contacts";
+import Error from "@/components/Error";
+import Loading from "@/components/Loading";
+import { useGetContacts } from "@/modules/contacts";
 import { Ionicons } from "@expo/vector-icons";
-import { Stack } from "expo-router";
-import { ReactNode, useEffect, useState } from "react";
+import { Stack, useRouter } from "expo-router";
+import { ReactNode, useCallback, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -11,14 +13,21 @@ import {
 } from "react-native";
 
 export default function ContactsScreen(): ReactNode {
-  const [contacts, setContacts] = useState<ContactEntity[]>([]);
+  const {
+    contacts,
+    failure,
+    getContacts,
+    state: { hasError, isLoading },
+  } = useGetContacts();
 
-  const { GetContacts } = useContactsModule();
+  const { push } = useRouter();
 
   useEffect(() => {
-    GetContacts({}).then((result) => {
-      setContacts(result.contacts);
-    });
+    getContacts();
+  }, []);
+
+  const doPressContactItem = useCallback((id: string) => {
+    push(`/contacts/${id}`);
   }, []);
 
   return (
@@ -30,10 +39,15 @@ export default function ContactsScreen(): ReactNode {
           }}
         />
 
+        {isLoading && <Loading />}
+        {hasError && <Error title={failure!.message} />}
         {contacts.map(({ fullName, id, phoneNumbers }) => {
           return (
             <View key={id} className="mx-6 border-b py-6 border-divider">
-              <TouchableOpacity className="flex flex-row items-center gap-4 justify-start">
+              <TouchableOpacity
+                className="flex flex-row items-center gap-4 justify-start"
+                onPress={() => doPressContactItem(id)}
+              >
                 <View className="bg-gray-300 aspect-square w-10 rounded-lg flex items-center justify-center">
                   <Text className="font-medium text-lg">
                     {fullName.charAt(0)}

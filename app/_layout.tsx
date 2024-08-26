@@ -36,7 +36,6 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       {/* <Provider store={RootStore}> */}
       <Stack>
-        {/* <Stack.Screen name="(contacts)" options={{ headerShown: false }} /> */}
         <Stack.Screen name="+not-found" />
       </Stack>
       {/* </Provider> */}

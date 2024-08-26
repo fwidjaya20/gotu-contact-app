@@ -21,3 +21,8 @@ export namespace Pagination {
     return Math.ceil((pages - 1) * limit);
   }
 }
+
+export interface PaginationMetadata {
+  hasPreviousData?: boolean;
+  hasNextData?: boolean;
+}
