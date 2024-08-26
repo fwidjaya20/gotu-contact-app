@@ -5,6 +5,7 @@ export interface ContactEntity {
   company: string;
   fullName: string;
   id: string;
+  isFavorite: boolean;
   jobTitle: string;
   phoneNumbers: PhoneNumber[];
 }
@@ -15,6 +16,7 @@ export namespace ContactEntity {
       company: json["company"],
       fullName: json["name"],
       id: json["id"],
+      isFavorite: false,
       jobTitle: json["jobTitle"],
       phoneNumbers: (json["phoneNumbers"] ?? []).map(PhoneNumber.fromJson),
     };

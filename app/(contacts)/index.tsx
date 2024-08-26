@@ -16,6 +16,7 @@ export default function ContactsScreen(): ReactNode {
   const {
     contacts,
     failure,
+    favorite,
     list,
     getContacts,
     ui: { isError, isLoaded, isLoading },
@@ -43,7 +44,7 @@ export default function ContactsScreen(): ReactNode {
         {isLoading && <Loading />}
         {isError && <Error title={failure!.message} />}
         {isLoaded &&
-          list.map((it) => {
+          [...favorite, ...list].map((it) => {
             const { fullName, id, phoneNumbers } = contacts[it];
 
             return (

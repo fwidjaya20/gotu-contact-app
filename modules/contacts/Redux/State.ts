@@ -5,7 +5,7 @@ import { PaginationMetadata } from "@/shared/ValueObject";
 export interface ContactState {
   contacts: Record<string, ContactEntity>;
   failure: Failure | undefined;
-  favourite: Record<string, boolean>;
+  favorite: string[];
   list: string[];
   metadata: PaginationMetadata;
   ui: {

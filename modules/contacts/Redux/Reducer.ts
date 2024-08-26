@@ -19,7 +19,7 @@ export class ContactReducer extends Reducer<ContactState> {
       {
         contacts: {},
         failure: undefined,
-        favourite: {},
+        favorite: [],
         list: [],
         metadata: {
           hasNextData: false,
@@ -52,7 +52,15 @@ export class ContactReducer extends Reducer<ContactState> {
     state: WritableDraft<ContactState>,
     { payload }: PayloadAction<string>
   ) {
-    state.favourite[payload] = true;
+    state.favorite.push(payload);
+    state.contacts[payload].isFavorite = true;
+
+    state.favorite.sort((a, b) => {
+      const l = state.contacts[a].fullName.toLowerCase();
+      const r = state.contacts[b].fullName.toLowerCase();
+
+      return l.localeCompare(r);
+    });
   }
 
   static removeFavorite(
@@ -60,7 +68,8 @@ export class ContactReducer extends Reducer<ContactState> {
     state: WritableDraft<ContactState>,
     { payload }: PayloadAction<string>
   ) {
-    delete state.favourite[payload];
+    state.favorite = state.favorite.filter((id) => id !== payload);
+    state.contacts[payload].isFavorite = false;
   }
 
   static setContact(

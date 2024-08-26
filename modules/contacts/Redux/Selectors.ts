@@ -15,12 +15,11 @@ export const ContactsFailureSelector = createSelector(
 
 export const ContactsFavouriteSelector = createSelector(
   ContactsRoot,
-  (data) => data.favourite
+  (data) => data.favorite
 );
 
-export const ContactsListSelector = createSelector(
-  ContactsRoot,
-  (data) => data.list
+export const ContactsListSelector = createSelector(ContactsRoot, (data) =>
+  data.list.filter((it) => !data.contacts[it].isFavorite)
 );
 
 export const ContactsMetadataSelector = createSelector(

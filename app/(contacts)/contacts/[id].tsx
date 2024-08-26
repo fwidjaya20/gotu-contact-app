@@ -25,7 +25,6 @@ export default function ContactDetailScreen(): ReactNode {
   const {
     contact,
     failure,
-    favorite,
     getContact,
     ui: { isError, isLoaded, isLoading },
   } = useGetContactDetail();
@@ -45,7 +44,7 @@ export default function ContactDetailScreen(): ReactNode {
             headerRight() {
               return (
                 <TouchableOpacity onPress={() => toggle(id)}>
-                  {favorite[id] ? (
+                  {contact?.isFavorite ? (
                     <Ionicons name="star" size={24} />
                   ) : (
                     <Ionicons name="star-outline" size={24} />
