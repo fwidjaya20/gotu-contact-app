@@ -46,8 +46,7 @@ export function useGetContacts() {
   return {
     contacts,
     failure,
-    favorite,
-    list,
+    list: [...(favorite ? [favorite] : []), ...list],
     metadata,
     getContacts,
     ui,

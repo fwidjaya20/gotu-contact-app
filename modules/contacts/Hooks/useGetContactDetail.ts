@@ -4,7 +4,6 @@ import { ContactEntity } from "../Entities";
 import { useContactsModule } from "../Module";
 import {
   ContactsFailureSelector,
-  ContactsFavouriteSelector as ContactsFavoriteSelector,
   ContactsMapSelector,
   ContactsUiSelector,
   SetContact,
@@ -16,7 +15,6 @@ import {
 export function useGetContactDetail() {
   const contacts = useSelector(ContactsMapSelector);
   const failure = useSelector(ContactsFailureSelector);
-  const favorite = useSelector(ContactsFavoriteSelector);
   const ui = useSelector(ContactsUiSelector);
 
   const contactId = useRef<string>();
@@ -43,7 +41,6 @@ export function useGetContactDetail() {
   return {
     contact: contactId.current ? contacts[contactId.current] : undefined,
     failure,
-    favorite,
     getContact,
     ui,
   };
