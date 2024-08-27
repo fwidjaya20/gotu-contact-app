@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { GetContactsDTO } from "../DTOs";
 import { GetContactsResponse } from "../Entities";
 import { useContactsModule } from "../Module";

@@ -59,6 +59,7 @@ export default function ContactsScreen(): ReactNode {
                 <View key={id} className="mx-6 border-b py-6 border-divider">
                   <TouchableOpacity
                     className="flex flex-row items-center gap-4 justify-start"
+                    testID="contact-item"
                     onPress={() => doPressContactItem(id)}
                   >
                     <View className="bg-gray-300 aspect-square w-10 rounded-lg flex items-center justify-center">

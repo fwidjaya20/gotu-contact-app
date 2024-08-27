@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react-native";
 import Error from "../Error";
+import React from "react";
 
 describe("<Error />", () => {
   test("Error renders correctly", () => {
