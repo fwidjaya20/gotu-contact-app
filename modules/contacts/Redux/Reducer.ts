@@ -6,6 +6,7 @@ import {
   AddFavorite,
   AppendContacts,
   RemoveFavorite,
+  SetContact,
   SetContacts,
   SetContactsFailure,
   SetContactsLoaded,
@@ -43,6 +44,7 @@ export class ContactReducer extends Reducer<ContactState> {
       .addCase(AddFavorite, ContactReducer.addFavorite)
       .addCase(AppendContacts, ContactReducer.appendContacts)
       .addCase(RemoveFavorite, ContactReducer.removeFavorite)
+      .addCase(SetContact, ContactReducer.setContact)
       .addCase(SetContacts, ContactReducer.setContacts)
       .addCase(SetContactsFailure, ContactReducer.setContactsFailure)
       .addCase(SetContactsLoaded, ContactReducer.setContactsLoaded)
