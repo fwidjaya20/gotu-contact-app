@@ -22,7 +22,6 @@ const dataState: ContactState = {
       emails: [],
       fullName: "John Doe",
       id: "1",
-      isFavorite: false,
       jobTitle: "",
       phoneNumbers: [],
     },
@@ -32,7 +31,6 @@ const dataState: ContactState = {
       emails: [],
       fullName: "Jane Doe",
       id: "2",
-      isFavorite: false,
       jobTitle: "",
       phoneNumbers: [],
     },
@@ -73,7 +71,6 @@ const dataContactKateBell: ContactEntity = {
   ],
   fullName: "Kate Bell",
   id: "3",
-  isFavorite: false,
   jobTitle: "Producer",
   phoneNumbers: [
     {
@@ -106,8 +103,7 @@ describe("Contacts Reducer", () => {
     it("should mark a contact as favorite", () => {
       newState = reducer(newState, AddFavorite("1"));
 
-      expect(newState.contacts["1"].isFavorite).toBeTruthy();
-      expect(newState.contacts["2"].isFavorite).toBeFalsy();
+      expect(newState.contacts["1"].id === newState.favorite).toBeTruthy();
       expect(newState.favorite).toEqual("1");
     });
 
@@ -115,8 +111,7 @@ describe("Contacts Reducer", () => {
       newState = reducer(newState, AddFavorite("1"));
       newState = reducer(newState, AddFavorite("2"));
 
-      expect(newState.contacts["1"].isFavorite).toBeFalsy();
-      expect(newState.contacts["2"].isFavorite).toBeTruthy();
+      expect(newState.contacts["2"].id === newState.favorite).toBeTruthy();
       expect(newState.favorite).toEqual("2");
     });
   });
@@ -154,8 +149,6 @@ describe("Contacts Reducer", () => {
       newState = reducer(newState, AddFavorite("1"));
       newState = reducer(newState, RemoveFavorite("1"));
 
-      expect(newState.contacts["1"].isFavorite).toBeFalsy();
-      expect(newState.contacts["1"].isFavorite).toBeFalsy();
       expect(newState.favorite).toBeUndefined();
     });
   });

@@ -9,7 +9,6 @@ export interface ContactEntity {
   emails: Email[];
   fullName: string;
   id: string;
-  isFavorite: boolean;
   jobTitle: string;
   phoneNumbers: PhoneNumber[];
 }
@@ -22,7 +21,6 @@ export namespace ContactEntity {
       emails: (json["emails"] ?? []).map(Email.fromJson),
       fullName: json["name"],
       id: json["id"],
-      isFavorite: false,
       jobTitle: json["jobTitle"],
       phoneNumbers: (json["phoneNumbers"] ?? []).map(PhoneNumber.fromJson),
     };

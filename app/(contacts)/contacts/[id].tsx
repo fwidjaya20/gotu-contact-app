@@ -25,7 +25,7 @@ type Params = {
 export default function ContactDetailScreen(): ReactNode {
   const { id } = useLocalSearchParams<Params>();
 
-  const { toggle } = useContactFavorite();
+  const { favorite, toggle } = useContactFavorite();
   const {
     contact,
     failure,
@@ -48,7 +48,7 @@ export default function ContactDetailScreen(): ReactNode {
             headerRight() {
               return (
                 <TouchableOpacity onPress={() => toggle(id)}>
-                  {contact?.isFavorite ? (
+                  {favorite === id ? (
                     <Ionicons name="star" size={24} />
                   ) : (
                     <Ionicons name="star-outline" size={24} />

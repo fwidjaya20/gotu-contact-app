@@ -19,7 +19,7 @@ export const ContactsFavouriteSelector = createSelector(
 );
 
 export const ContactsListSelector = createSelector(ContactsRoot, (data) =>
-  data.list.filter((it) => !data.contacts[it].isFavorite)
+  data.list.filter((it) => data.contacts[it].id !== data.favorite)
 );
 
 export const ContactsMetadataSelector = createSelector(

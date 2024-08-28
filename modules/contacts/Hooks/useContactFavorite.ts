@@ -1,15 +1,21 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddFavorite, ContactsMapSelector, RemoveFavorite } from "../Redux";
+import {
+  AddFavorite,
+  ContactsFavouriteSelector,
+  ContactsMapSelector,
+  RemoveFavorite,
+} from "../Redux";
 
 export function useContactFavorite() {
   const contacts = useSelector(ContactsMapSelector);
+  const favorite = useSelector(ContactsFavouriteSelector);
 
   const dispatch = useDispatch();
 
   const toggle = useCallback(
     (id: string) => {
-      if (!contacts[id]?.isFavorite) {
+      if (favorite !== id) {
         dispatch(AddFavorite(id));
         return;
       }
@@ -19,5 +25,5 @@ export function useContactFavorite() {
     [contacts]
   );
 
-  return { toggle };
+  return { favorite, toggle };
 }

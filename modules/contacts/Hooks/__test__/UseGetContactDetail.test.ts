@@ -46,7 +46,6 @@ describe("useGetContactDetail", () => {
         ],
         fullName: "John Doe",
         id: "1",
-        isFavorite: false,
         jobTitle: "Software Engineer",
         phoneNumbers: [
           {

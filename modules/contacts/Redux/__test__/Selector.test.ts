@@ -17,7 +17,6 @@ const dataState: RootState = {
         emails: [],
         fullName: "John Doe",
         id: "1",
-        isFavorite: false,
         jobTitle: "",
         phoneNumbers: [],
       },
@@ -27,7 +26,6 @@ const dataState: RootState = {
         emails: [],
         fullName: "Jane Doe",
         id: "2",
-        isFavorite: false,
         jobTitle: "",
         phoneNumbers: [],
       },
@@ -66,7 +64,7 @@ describe("Contacts Selectors", () => {
   it("should select contacts list without favorites", () => {
     const result = ContactsListSelector(dataState);
     const expectedList = dataState.contacts.list.filter(
-      (id) => !dataState.contacts.contacts[id].isFavorite
+      (id) => dataState.contacts.contacts[id].id !== dataState.contacts.favorite
     );
     expect(result).toEqual(expectedList);
   });

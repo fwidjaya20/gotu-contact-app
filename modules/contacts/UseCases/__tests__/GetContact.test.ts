@@ -69,7 +69,6 @@ describe("GetContactsUseCase", () => {
       emails: [],
       fullName: "John Doe",
       id: "1",
-      isFavorite: false,
       jobTitle: "",
       phoneNumbers: [],
     });
@@ -82,7 +81,6 @@ describe("GetContactsUseCase", () => {
       emails: [],
       fullName: "John Doe",
       id: "1",
-      isFavorite: false,
       jobTitle: "",
       phoneNumbers: [],
     });

@@ -56,12 +56,7 @@ export class ContactReducer extends Reducer<ContactState> {
     state: WritableDraft<ContactState>,
     { payload }: PayloadAction<string>
   ) {
-    if (state.favorite) {
-      state.contacts[state.favorite].isFavorite = false;
-    }
-
     state.favorite = payload;
-    state.contacts[payload].isFavorite = true;
   }
 
   static appendContacts(
@@ -87,7 +82,6 @@ export class ContactReducer extends Reducer<ContactState> {
     { payload }: PayloadAction<string>
   ) {
     state.favorite = undefined;
-    state.contacts[payload].isFavorite = false;
   }
 
   static setContact(
