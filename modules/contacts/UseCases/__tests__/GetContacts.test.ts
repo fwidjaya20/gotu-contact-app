@@ -6,8 +6,6 @@ import ClientContact, {
   requestPermissionsAsync,
 } from "expo-contacts";
 
-const mockFnGetContacts = jest.fn();
-
 jest.mock("expo-contacts", () => {
   return {
     requestPermissionsAsync: jest.fn(),
@@ -24,7 +22,7 @@ jest.mock("../../Repositories", () => {
     ...original,
     ExpoContactRepository: jest.fn().mockImplementation(() => {
       return {
-        getContacts: mockFnGetContacts,
+        getContacts: jest.fn(),
       };
     }),
   };

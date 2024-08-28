@@ -26,8 +26,6 @@ export class ExpoContactRepository implements Repository {
 
   public async getContacts(dto: GetContactsDTO): Promise<GetContactsResponse> {
     try {
-      this.client.getContactByIdAsync;
-
       const dataContacts = await this.client.getContactsAsync({
         ...GetContactsDTO.toContactQuery(dto),
         fields: this.fields,
